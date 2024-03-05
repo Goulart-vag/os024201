@@ -1,0 +1,18 @@
+program SEOCorp024201;
+
+uses
+  Forms,
+  TemporizadorFrm in 'TemporizadorFrm.pas' {frmTemporizador},
+  ThreadTemporizador in 'ThreadTemporizador.pas',
+  CadHorariosFrm in 'CadHorariosFrm.pas' {frmCadHorarios},
+  FrmHome in 'FrmHome.pas' {HomeFrm};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TfrmCadHorarios, frmCadHorarios);
+  Application.CreateForm(TfrmTemporizador, frmTemporizador);
+  Application.CreateForm(THomeFrm, HomeFrm);
+  Application.Run;
+end.

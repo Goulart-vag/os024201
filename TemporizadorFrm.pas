@@ -1,0 +1,135 @@
+unit TemporizadorFrm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls,ThreadTemporizador, Menus;
+
+type
+  TfrmTemporizador = class(TForm)
+    grbTemporizador: TGroupBox;
+    lblTemporizador: TLabel;
+    menu: TMainMenu;
+    Cadastro1: TMenuItem;
+    Horrios1: TMenuItem;
+    Processos1: TMenuItem;
+    Cronometro1: TMenuItem;
+    Funcionrios1: TMenuItem;
+    procedure FormCreate(Sender: TObject);
+    procedure Horrios1Click(Sender: TObject);
+    procedure Funcionrios1Click(Sender: TObject);
+
+
+
+  private
+    { Private declarations }
+    temporizador:TThreadTemporizador;
+    btnPausar:Tbutton;
+    btnLimpar:Tbutton;
+    Active:Boolean;
+
+
+  public
+    { Public declarations }
+     procedure btnPausarClick(Sender: TObject);
+     procedure btnLimparClick(Sender: TObject);
+     procedure iniciarTemporizador;
+  end;
+
+var
+  frmTemporizador: TfrmTemporizador;
+
+implementation
+
+{$R *.dfm}
+
+uses
+  cadClientesFrm,cadFuncionariosFrm;
+
+procedure TfrmTemporizador.iniciarTemporizador;
+begin
+  Temporizador := TThreadTemporizador.create(True);
+  temporizador.asignLabel(lblTemporizador);
+  temporizador.Active := true;
+end;
+
+procedure TfrmTemporizador.btnLimparClick(Sender: TObject);
+begin
+//temporizador.limpar;
+
+temporizador.Suspend;
+active:=false;
+btnPausar.Caption := 'Iniciar';
+lblTemporizador.Caption := temporizador.limpar();
+iniciarTemporizador;
+
+end;
+
+procedure TfrmTemporizador.btnPausarClick(sender:TObject);
+begin
+
+ if Active = true then
+ begin
+  temporizador.Active := false;
+  temporizador.Suspend;
+  active:=false;
+  btnPausar.Caption := 'Iniciar';
+ end
+ else
+ begin
+  temporizador.Active := true;
+  temporizador.Resume;
+  active:=true;
+  btnPausar.Caption := 'Pausar';
+  end;
+end;
+
+procedure TfrmTemporizador.FormCreate(Sender: TObject);
+begin
+  iniciarTemporizador;
+  
+  btnPausar := TButton.Create(self);
+  with btnPausar do
+  begin
+  Width   := 200;
+  Parent  := self;
+  Height  := 50;
+  Caption := 'Iniciar';
+  left    := 100;
+  top     := 300;
+  Visible := true;
+  OnClick := btnPausarClick;
+  end;
+
+  btnLimpar := TButton.Create(self);
+  with btnLimpar do
+  begin
+  Width   := 200;
+  Parent  := self;
+  Height  := 50;
+  Caption := 'Limpar';
+  left    := 100;
+  top     := 400;
+  Visible := true;
+  OnClick := btnLimparClick;
+  end;
+end;
+
+procedure TfrmTemporizador.Horrios1Click(Sender: TObject);
+begin
+    self.close;
+    self.Hide;
+    Application.CreateForm(TfrmCadClientes, frmCadClientes);
+    frmCadClientes.show;
+end;
+
+procedure TfrmTemporizador.Funcionrios1Click(Sender: TObject);
+begin
+   self.close;
+    self.Hide;
+    Application.CreateForm(TFrmCadFuncionarios, FrmCadFuncionarios);
+    FrmCadFuncionarios.show;
+end;
+
+end.

@@ -1,0 +1,2 @@
+[Error] TemporizadorFrm.pas(22): Unsatisfied forward or external declaration: 'TfrmTemporizador.pausarTemporizador'
+[Fatal Error] SEOCorp024201.dpr(9): Could not compile used unit 'TemporizadorFrm.pas'
